@@ -1,7 +1,6 @@
 const fs = require("fs");
 const ytdl = require("ytdl-core");
 const ffmpeg = require("fluent-ffmpeg");
-const youtubeStream = require("youtube-audio-stream");
 
 module.exports = (req, res, url) => {
   const head = {
