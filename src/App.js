@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-const ip = "192.168.3.53";
+// const ip = "192.168.3.53";
+const ip = "0.0.0.0";
 class App extends Component {
   constructor(props) {
     super(props);
