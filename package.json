@@ -12,7 +12,8 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.4",
-    "youtube-dl": "^1.12.2"
+    "youtube-dl": "^1.12.2",
+    "ytdl-core": "^0.24.0"
   },
   "scripts": {
     "start": "react-scripts start",
