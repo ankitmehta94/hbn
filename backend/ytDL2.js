@@ -9,7 +9,7 @@ module.exports = (req, res, id) => {
   };
   const url = `https://www.youtube.com/watch?v=${id}`
   try {
-    cosnole.log(url);
+    console.log(url);
     const stream = ytdl(url);
     proc = new ffmpeg({ source: stream }).format("mp3").pipe(
       res,
