@@ -21,7 +21,7 @@ const ytDL2 = require('./ytDL2');
 
 app.get('/stream', function(req, res) {
     const url = req.query['ytUrl'];
-    console.log(url, '<--------------------------------url');
+    // console.log(url, '<--------------------------------url');
     ytDL2(req, res, url);
 });
 

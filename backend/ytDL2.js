@@ -9,14 +9,14 @@ module.exports = (req, res, id) => {
   };
   const url = `https://www.youtube.com/watch?v=${id}`
   try {
+    cosnole.log(url);
     const stream = ytdl(url);
     proc = new ffmpeg({ source: stream }).format("mp3").pipe(
       res,
       { end: true }
     );
-    console.log(proc);
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).send({
       success: false,
       error: error
