@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import SearchList from './SearchList/SearchList';
+import env from './env';
 
-const ip = "13.233.19.191";
-// const ip = "0.0.0.0";
+// const ip = "13.233.19.191";
+const ip = "0.0.0.0";
+const api_key = env.api_key;
 class App extends Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
     this.audioRef = React.createRef();
-    // this.state = {
-    // };
+    this.state = {
+      data: [],
+    };
     this.tempAudioContext = new AudioContext();
     this.pausedAt = null;
     this.startedAt = null;
@@ -46,8 +50,9 @@ class App extends Component {
       this.sourceNode.start(0);
       }
   }
-  getStream = () => {
-    const url = "http://" + ip + ":8080/stream?ytUrl=" + this.inputRef.current.value;
+  getStream = (id) => {
+
+    const url = "http://" + ip + ":8080/stream?ytUrl=" + id;
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
     request.responseType = 'arraybuffer';
@@ -56,6 +61,19 @@ class App extends Component {
       this.tempAudioContext.decodeAudioData(request.response, this.onBufferLoad, this.onBufferError);
       };
     request.send();
+  }
+  getYoutubeSearchData = () => {
+    let value = this.inputRef.current.value;
+    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${value}&key=${api_key}`)
+    .then((response) => {
+        return response.json();
+    })
+    .then((myJson) => {
+        console.log(myJson);
+        this.setState({
+          data: myJson.items
+        })
+    });
   }
   sendUrlAgain = () => {
     // Creates an AudioContext and AudioContextBuffer
@@ -97,16 +115,18 @@ class App extends Component {
   };
 
   render() {
+    const {data =[]} = this.state;
     return (
       <div className="App">
         <div>
           <input type="text" ref={this.inputRef} />
-          <button onClick={this.getStream} children={"Send me the music"} />
+          <button onClick={this.getYoutubeSearchData} children={"Send me the music"} />
         </div>
         <div>
           <button onClick={this.playAudio} children={"Play"} />
           <button onClick={this.pauseAudio} children={"Pause"} />
         </div>
+        <SearchList data={data} startPlay={this.getStream} />
       </div>
     );
   }
